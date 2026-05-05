@@ -1,12 +1,12 @@
-[
-  {
-    "date": "2026-05-05",
-    "type": "Кардио",
-    "duration": 45
-  },
-  {
-    "date": "2026-05-06",
-    "type": "Силовая",
-    "duration": 60
-  }
-]
+    def save_data(self):
+        with open("trainings.json", "w", encoding="utf-8") as f:
+            json.dump(self.trainings, f, ensure_ascii=False, indent=4)
+
+    def load_data(self):
+        if os.path.exists("trainings.json"):
+            with open("trainings.json", "r", encoding="utf-8") as f:
+                self.trainings = json.load(f)
+            # Заполняем таблицу при загрузке
+            for training in self.trainings:
+                self.tree.insert("", "end", values=(training["date"], training["type"], training["duration"]))
+            self.update_filter_options()
